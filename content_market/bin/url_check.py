@@ -61,6 +61,7 @@ def bbb(url):
     config = query_config(hosts_config, host=host, path=path)
     request_data = make_request_data(config, extra_info)
     request_data['url_type'] = 'detail'
+    request_data['config'] = config
     scheduler.schedul(request_data)
     print 'true'
     return True
@@ -74,8 +75,7 @@ def ccc(url, settings):
     config = query_config(settings, host=host, path=path)
     request_data = make_request_data(config, extra_info)
     request_data['url_type'] = 'chapter'
-    request_data['config'] = config['content_config']
-    return request_data
+    return request_data, config
 
 
 if __name__ == '__main__':
