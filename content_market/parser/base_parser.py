@@ -30,7 +30,7 @@ class BaseParser(object):
     def parse_chapter_list(self, content, url):
         raise NotImplementedError()
 
-    def parse_content(self, content):
+    def parse_content(self, content, url=None):
         raise NotImplementedError()
 
 

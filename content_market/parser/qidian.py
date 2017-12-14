@@ -68,7 +68,7 @@ class Qidian(BaseParser):
         item['word_count'] = int(update_str.rsplit(' ', 1)[-1].split(u'：')[-1])
         return item
 
-    def parse_content(self, content):
+    def parse_content(self, content, url=None):
         sel = etree.HTML(content)
         return self.cleaner.fit_transform('\n'.join(sel.xpath('//div[@class="read-content j_readContent"]/p/text()')))
 
