@@ -16,16 +16,20 @@ class DevelopmentConfig(Config):
     LOG_LEVEL = 'DEBUG'
     REDIS_URI = 'redis://localhost:6379/3'
     MONGO_URI = 'mongodb://localhost:27017'
-    MONGO_DB_NAME = 'develop'
+    MONGO_DB_NAME = 'haima_spider'
     MONGO_AUTH = {}
+
+    FILE_PATH = '/Users/heyao/haima_spider_txt'
 
 
 class ProductionConfig(Config):
     LOG_LEVEL = 'INFO'
     REDIS_URI = 'redis://localhost:6379/3'
     MONGO_URI = 'mongodb://localhost:27107'
-    MONGO_DB_NAME = 'develop'
+    MONGO_DB_NAME = 'haima_spider'
     MONGO_AUTH = {}
+
+    FILE_PATH = ''
 
 
 class TestConfig(Config):

@@ -17,8 +17,8 @@ from content_market.parser.items import BookSourceItem, BookInfoItem, ChapterLis
 
 
 class Qidian(BaseParser):
-    def __init__(self, log_level="INFO", format_str=None, filename=None):
-        super(Qidian, self).__init__(log_level, format_str, filename)
+    def __init__(self, log_name=None, log_level="INFO", format_str=None, filename=None):
+        super(Qidian, self).__init__(log_name, log_level, format_str, filename)
 
     def parse_source_list(self, content, url):
         sel = etree.HTML(content)
@@ -27,6 +27,7 @@ class Qidian(BaseParser):
             yield self.parse_one(book, url)
 
     def parse_detail(self, content, url):
+        self.logger.debug('Received info')
         item = BookInfoItem()
         sel = etree.HTML(content)
         item['folder_url'] = urljoin(url, sel.xpath('//div[@class="book-information cf"]/div[1]/a/img/@src')[0]).strip()

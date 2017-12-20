@@ -8,8 +8,8 @@ author @heyao
 import logging
 
 
-def get_logger(name, log_level="INFO", format_str="[%(name)s][%(asctime)s] %(levelname)s %(message)s", filename=None):
-    format_str = format_str or "[%(name)s][%(asctime)s] %(levelname)s %(message)s"
+def get_logger(name, log_level="INFO", format_str="[%(name)s][%(asctime)s] %(levelname)s: %(message)s", filename=None):
+    format_str = format_str or "[%(name)s][%(asctime)s] %(levelname)s: %(message)s"
     logging.basicConfig(
         level=getattr(logging, log_level),
         format=format_str,
