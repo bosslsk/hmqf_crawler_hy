@@ -10,9 +10,10 @@ from content_market.utils.log import get_logger
 
 
 class BaseParser(object):
-    def __init__(self, log_level="INFO", format_str=None, filename=None):
+    def __init__(self, log_name=None, log_level="INFO", format_str=None, filename=None):
+        log_name = log_name or __name__
         self.cleaner = Cleaner()
-        self.logger = get_logger(__name__, log_level, format_str, filename)
+        self.logger = get_logger(log_name, log_level, format_str, filename)
 
     @classmethod
     def from_settings(cls, settings):
