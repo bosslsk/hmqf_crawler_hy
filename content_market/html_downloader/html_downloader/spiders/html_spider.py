@@ -35,6 +35,7 @@ class HtmlSpiderSpider(RedisSpider):
         item['url'] = data['url']
         item['url_type'] = data['url_type']
         item['config'] = data.pop('config', {})
+        item['extra'] = data.pop('extra', {})
         if charset:
             item['html'] = response.body_as_unicode()
         else:

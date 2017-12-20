@@ -13,3 +13,4 @@ class HtmlDownloaderItem(scrapy.Item):
     url = scrapy.Field()
     url_type = scrapy.Field()
     config = scrapy.Field()
+    extra = scrapy.Field()

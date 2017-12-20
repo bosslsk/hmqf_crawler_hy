@@ -22,6 +22,7 @@ class BookSourceItem(Item):
     folder_url = Field()
     status = Field()  # 连载状态
     introduction = Field()
+    added_at = Field()
 
 
 class BookInfoItem(Item):
@@ -39,12 +40,16 @@ class BookInfoItem(Item):
     status = Field()  # 书连载状态
     word_count = Field()  # 总字数
     introduction = Field()
+    added_at = Field()
 
 
 class ChapterListItem(Item):
     title = Field()
     url = Field()
+    source = Field()
+    book_id = Field()
     chapter_ordinal = Field()
     chapter_id = Field()
     updated_at = Field()
     word_count = Field()
+    added_at = Field()
