@@ -28,15 +28,16 @@ class WarmMonitor(BaseMonitor):
         if self.handle_SIGINT == 0:
             self.warm_stop = True
             self.handle_SIGINT += 1
-            print "handle signal SIGINT, press Ctrl+C twice to force shut down."
+            self.logger.info("Received SIGINT, send again to force shut down.")
         elif self.handle_SIGINT == 1:
-            print "handle signal SIGINT twice, program will shut down."
+            self.logger.info("Received SIGINT twice, program will shut down.")
             exit(0)
 
-    def run(self, sleep_time=5):
+    def run(self, sleep_time=5, log=True):
         self.open()
         # condition = threading.Condition()
-        print "press Ctrl+C to quit."
+        if log:
+            print "press Ctrl+C to quit."
         while 1:
             if self.warm_stop:
                 break
@@ -74,6 +75,7 @@ if __name__ == '__main__':
     class Monitor(WarmMonitor):
         def __init__(self, queue, scheduler=None, *args, **kwargs):
             super(Monitor, self).__init__(queue, scheduler, *args, **kwargs)
+            self.logger.debug("ok")
 
         def one_step(self, data):
             with open(u'/Users/heyao/Desktop/novel/闪婚爱妻(2).txt', 'r') as f:
@@ -85,5 +87,5 @@ if __name__ == '__main__':
                 senti.append(s)
             print len(senti)
 
-    wm = Monitor(queue)
+    wm = Monitor(queue, log_name=__name__, log_level='DEBUG')
     wm.run()
