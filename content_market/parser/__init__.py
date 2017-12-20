@@ -7,7 +7,7 @@ author @heyao
 
 from content_market.parser.qidian import Qidian
 
-qidian = Qidian()
+qidian = Qidian(__name__, 'DEBUG')
 
 parser_dict = dict(
     Qidian=qidian
