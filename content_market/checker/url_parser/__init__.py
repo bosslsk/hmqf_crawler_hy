@@ -11,15 +11,18 @@ from content_market.checker.query import query_config
 from content_market.checker.url_parser.utils import parse_url
 from content_market.checker.url_parser.qidian import parse_qidian
 from content_market.checker.url_parser.jjwx import parse_jjwx
+from content_market.checker.url_parser.shangshu import parse_shangshu
 
 parse_dict = {
     'www.jjwxc.net': parse_jjwx,
-    'book.qidian.com': parse_qidian
+    'book.qidian.com': parse_qidian,
+    'www.shangshu.cc': parse_shangshu
 }
 
 source_dict = {
     '.qidian.': 1,
-    '.jjwxc.': 7
+    '.jjwxc.': 7,
+    '.shangshu.': 10
 }
 
 
