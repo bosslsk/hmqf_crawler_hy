@@ -6,9 +6,5 @@ author @heyao
 """
 
 
-class BaseException(Exception):
-    pass
-
-
-class HostNotSupportException(BaseException):
+class HostNotSupportException(Exception):
     pass
