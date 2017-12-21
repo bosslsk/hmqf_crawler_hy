@@ -29,6 +29,8 @@ class Qidian(BaseParser):
     def parse_detail(self, content, url):
         self.logger.debug('Received info')
         item = BookInfoItem()
+        if '抱歉，页面无法访问...' in content:
+            return item
         sel = etree.HTML(content)
         item['folder_url'] = urljoin(url, sel.xpath('//div[@class="book-information cf"]/div[1]/a/img/@src')[0]).strip()
         item['title'] = sel.xpath('//div[@class="book-information cf"]/div[2]/h1/em/text()')[0]

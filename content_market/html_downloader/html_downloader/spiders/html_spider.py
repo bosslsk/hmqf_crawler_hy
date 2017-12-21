@@ -13,6 +13,7 @@ class HtmlSpiderSpider(RedisSpider):
     name = "html_spider"
     redis_key = 'spider:html'
     reg_charset = re.compile(r"<meta .*?charset=\"?(.*?)\"?[\>;/ ]")
+    handle_httpstatus_list = [400, 404]
 
     def make_request_from_data(self, data):
         data = json.loads(data)

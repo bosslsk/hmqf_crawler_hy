@@ -52,6 +52,7 @@ class Scheduler(object):
 
     def schedul(self, data):
         self.queue.push(data)
+        return True
 
     def has_pending_requests(self):
         return len(self)

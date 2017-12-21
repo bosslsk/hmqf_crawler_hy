@@ -6,12 +6,13 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import redis
-from scrapy.conf import settings
+from scrapy.utils.project import get_project_settings
 from scheduler import Scheduler
 
 
 class HtmlDownloaderPipeline(object):
     def open_spider(self, spider):
+        settings = get_project_settings()
         redis_uri = settings.get("REDIS_URL")
         r = redis.StrictRedis.from_url(redis_uri)
         self.detail_scheduler = Scheduler.from_settings(r, settings, prefix='DETAIL')

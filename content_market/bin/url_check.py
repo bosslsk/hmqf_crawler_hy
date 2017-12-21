@@ -9,41 +9,38 @@ from copy import deepcopy
 
 import redis
 
-from content_market.checker import check_detail_url
-from content_market.exceptions import HostNotSupportException
+from content_market.checker import UrlChecker, hosts_config, chapter_config
 from content_market.scheduler import Scheduler
 from content_market.utils.pool import redis_connection_pool, mongo
 
 r = redis.StrictRedis(connection_pool=redis_connection_pool)
 scheduler = Scheduler(r, 'spider:html', 'hm_collections.queue.redis_queue.RedisSetQueue', queue_serializer='json')
+url_checker = UrlChecker(hosts_config, chapter_config)
 
 
-def add_url(url_info):
-    url = url_info['url']
-    support = True
+def add_url(url, force_update):
+    """
+    :param url: str. full url, contain scheme, host, path, <query>
+    :param force_update: bool. whether to force update. if True, it will update the data in the db 
+    :return: 
+    """
     schedule = False
-    try:
-        request_data, config = check_detail_url(url)
-    except HostNotSupportException:
-        support = False
+    request_data, support = url_checker.add_url(url)
+    if request_data is None:
         return support, schedule
     data = deepcopy(request_data['extra'])
     data['added_at'] = datetime.datetime.now()
-    result = mongo['book_index'].update_one(
+    coll = mongo['book_index']
+    result = coll.update_one(
         {'_id': '%s_%s' % (request_data['extra']['source'], request_data['extra']['book_id'])},
         {'$setOnInsert': data},
         upsert=True
     )
-    if url_info.get('force_update', 0):
-        scheduler.schedul(request_data)
-        schedule = True
-        return support, schedule
+    if force_update:
+        schedule = scheduler.schedul(request_data)
     elif not result.matched_count:
-        scheduler.schedul(request_data)
-        schedule = True
-        return support, schedule
+        schedule = scheduler.schedul(request_data)
     return support, schedule
-
 
 if __name__ == '__main__':
     urls = [
@@ -65,7 +62,9 @@ if __name__ == '__main__':
         }
     ]
     for url_info in urls:
-        support, schedule = add_url(url_info)
+        url = url_info['url']
+        force_update = url_info['force_update']
+        support, schedule = add_url(url, force_update)
         if not support:
             print 'not support'
         elif schedule:
