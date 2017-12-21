@@ -41,6 +41,18 @@ hosts_config = [
         'status': 1,
         'parser': 'JinJiang',
         'parse_func': 'parse_detail'
+    },
+    {
+        'name': 'SHANGSHU_DETAIL_HTML',
+        'host': 'www.shangshu.cc',
+        'path': r'/[0-9]*.?/[0-9]*.?/',
+        'queries': None,
+        'data_url': '{url}',
+        'formdata': None,
+        'headers': None,
+        'status': 1,
+        'parser': 'Shangshu',
+        'parse_func': 'parse_detail'
     }
 ]
 
@@ -76,6 +88,23 @@ chapter_config = [
             'formdata': {'chapterId': '{chapter_id}', 'novelId': '{book_id}', 'versionCode': '0'},
             'headers': None,
             'parser': 'JinJiang',
+            'parse_func': 'parse_content'
+        }
+    },
+    {
+        'host': 'www.shangshu.cc',
+        'path': r'/[0-9]*.?/[0-9]*.?/',
+        'data_url': '{url}',
+        'formdata': None,
+        'headers': None,
+        'status': 1,
+        'parser': 'Shangshu',
+        'parse_func': 'parse_chapter_list',
+        'content_config': {
+            'data_url': '{url}',
+            'formdata': None,
+            'headers': None,
+            'parser': 'Shangshu',
             'parse_func': 'parse_content'
         }
     }

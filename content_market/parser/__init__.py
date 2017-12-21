@@ -6,11 +6,14 @@ author @heyao
 """
 
 from content_market.parser.qidian import Qidian
+from content_market.parser.shangshu import Shangshu
 
 qidian = Qidian(__name__, 'DEBUG')
+shangshu = Shangshu(__name__, 'DEBUG')
 
 parser_dict = dict(
-    Qidian=qidian
+    Qidian=qidian,
+    Shangshu=shangshu
 )
 
 
