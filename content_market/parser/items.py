@@ -41,6 +41,7 @@ class BookInfoItem(Item):
     word_count = Field()  # 总字数
     introduction = Field()
     added_at = Field()
+    finished_status = Field()
 
 
 class ChapterListItem(Item):
@@ -53,3 +54,4 @@ class ChapterListItem(Item):
     updated_at = Field()
     word_count = Field()
     added_at = Field()
+    finished_status = Field()
