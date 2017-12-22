@@ -42,6 +42,7 @@ def add_url(url, force_update):
         schedule = scheduler.schedul(request_data)
     return support, schedule
 
+
 if __name__ == '__main__':
     urls = [
         {
@@ -57,8 +58,8 @@ if __name__ == '__main__':
             'force_update': 0
         },
         {
-            'url': 'http://www.shangshu.cc/99/99390/',
-            'force_update': 1
+            'url': 'http://www.shangshu.cc/99/99290/',
+            'force_update': 0
         }
     ]
     for url_info in urls:
