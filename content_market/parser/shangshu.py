@@ -30,6 +30,7 @@ class Shangshu(BaseParser):
         item['author'] = sel.xpath('//h2[@class="BookAuthor"]/a/text()')[0]
         item['category'] = sel.xpath('//h2[@class="BookAuthor"]/text()')[1][5:]
         item['sub_category'] = ''
+        item['word_count'] = 0
         item['status'] = sel.xpath('//span[@id="adbanner_1"]/text()')[0][:3]
         item['introduction'] = sel.xpath('//h3[@class="BookIntro"]/text()')[0].replace(' ', '').strip()[3:]
         return item
