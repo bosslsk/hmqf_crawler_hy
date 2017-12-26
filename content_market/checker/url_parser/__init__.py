@@ -22,7 +22,7 @@ parse_dict = {
 source_dict = {
     '.qidian.': 1,
     '.jjwxc.': 7,
-    '.shangshu.': 10
+    '.shangshu.': 15
 }
 
 
