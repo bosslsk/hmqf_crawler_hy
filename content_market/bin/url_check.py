@@ -45,11 +45,11 @@ def add_url(url, force_update):
 if __name__ == '__main__':
     urls = [
         {
-            'url': 'https://book.qidian.com/info/1009704712',
-            'force_update': 1
+            'url': 'https://book.qidian.com/info/1009632848',
+            'force_update': 0
         },
         {
-            'url': 'https://book.qidian.com/info/1007090207',
+            'url': 'https://book.qidian.com/info/1010566688',
             'force_update': 0
         },
         {
