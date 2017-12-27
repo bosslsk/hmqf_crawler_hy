@@ -19,21 +19,21 @@ class TestShangshu(object):
     def tear_down(self):
         pass
 
-    def test_source_list(self):
-        with open('parser/data/shangshu/source_list.html', 'r') as f:
-            content = f.read().decode('utf-8')
-        with open('parser/data/shangshu/source_list.json', 'r') as f:
-            result = json.load(f)
-        url = 'https://www.shangshu.com'
-        source_list = self.shangshu.parse_source_list(content, url)
-        assert_list_equal(list(source_list), result)
+    # def test_source_list(self):
+    #     with open('parser/data/shangshu/source_list.html', 'r') as f:
+    #         content = f.read().decode('utf-8')
+    #     with open('parser/data/shangshu/source_list.json', 'r') as f:
+    #         result = json.load(f)
+    #     url = 'http://www.shangshu.cc'
+    #     source_list = self.shangshu.parse_source_list(content, url)
+    #     assert_list_equal(list(source_list), result)
 
     def test_chapter_list(self):
         with open('parser/data/shangshu/book_detail.html', 'r') as f:
             content = f.read().decode('utf-8')
         with open('parser/data/shangshu/chapters.json', 'r') as f:
             real_chapters = json.load(f)
-        url = 'https://book.shangshu.com'
+        url = 'http://www.shangshu.cc'
         chapters = self.shangshu.parse_chapter_list(content, url)
         assert_is_instance(chapters, type((i for i in (1,))))
         assert_list_equal(list(chapters), real_chapters)
@@ -50,6 +50,6 @@ class TestShangshu(object):
             content = f.read().decode('utf-8')
         with open('parser/data/shangshu/book_detail.json', 'r') as f:
             book_detail = json.load(f)
-        url = 'https://book.shangshu.com/info/1010696129'
+        url = 'http://www.shangshu.cc/99/99390/'
         info = self.shangshu.parse_detail(content, url)
         assert_dict_equal(book_detail, dict(info))
