@@ -4,10 +4,10 @@
     @time: 2017/12/19 16:28
     @subject: 
 """
-from urlparse import urljoin
-import sys
 
-import requests
+import sys
+from urlparse import urljoin
+
 from lxml import etree
 
 from content_market.parser.base_parser import BaseParser
@@ -18,7 +18,6 @@ sys.setdefaultencoding('utf-8')
 
 
 class Shangshu(BaseParser):
-
     def __init__(self, log_name=None, log_level="INFO", format_str=None, filename=None):
         super(Shangshu, self).__init__(log_name, log_level, format_str, filename)
 
@@ -32,11 +31,11 @@ class Shangshu(BaseParser):
         item['title'] = sel.xpath('//img[@class="BookImg"]/@alt')[0]
         item['url'] = url
         item['author'] = sel.xpath('//h2[@class="BookAuthor"]/a/text()')[0]
-        item['category'] = sel.xpath('//h2[@class="BookAuthor"]/text()')[1][5:]
+        item['category'] = sel.xpath('//h2[@class="BookAuthor"]/text()')[1].strip().split(u'：')[-1]
         item['sub_category'] = ''
         item['word_count'] = 0
-        item['status'] = sel.xpath('//span[@id="adbanner_1"]/text()')[0][:3]
-        item['introduction'] = sel.xpath('//h3[@class="BookIntro"]/text()')[0].replace(' ', '').strip()[3:]
+        item['status'] = ''  # sel.xpath('//span[@id="adbanner_1"]/text()')[0][:3]
+        item['introduction'] = self.cleaner.fit_transform('\n'.join(sel.xpath('//h3[@class="BookIntro"]/text()')))
         return item
 
     def parse_source_list(self, content, url):
@@ -65,11 +64,3 @@ class Shangshu(BaseParser):
     def parse_content(self, content, url=None):
         sel = etree.HTML(content)
         return self.cleaner.fit_transform('\n'.join(sel.xpath('//div[@id="content"]/text()')))
-
-
-if __name__ == '__main__':
-    url = 'http://www.shangshu.cc/90/90302/'
-    content = requests.get(url).content
-    parse = Shangshu()
-    info = parse.parse_detail(content, url)
-    print info

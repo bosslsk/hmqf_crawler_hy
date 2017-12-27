@@ -18,12 +18,13 @@ from content_market.utils.save import save_content
 
 
 class BookDetailMonitor(WarmMonitor):
-    def __init__(self, queue, scheduler=None, *args, **kwargs):
+    def __init__(self, queue, scheduler=None, mongodb=None, *args, **kwargs):
         log_name = self.__class__.__module__ + '.' + self.__class__.__name__
         kwargs.pop('log_name', None)
         kwargs['log_name'] = log_name
         super(BookDetailMonitor, self).__init__(queue, scheduler, *args, **kwargs)
         self.url_checker = UrlChecker(hosts_config, chapter_config)
+        self.mongodb = mongodb
 
     def one_step(self, data):
         html = data['html']
@@ -36,7 +37,7 @@ class BookDetailMonitor(WarmMonitor):
 
         detail_info = parse(html, url, parser, parse_func)
         if not detail_info:
-            mongo['book_index'].update_one(
+            self.mongodb['book_index'].update_one(
                 {'_id': '%s_%s' % (extra_info['source'], extra_info['book_id'])},
                 {'$set': {'status': 0}}
             )
@@ -45,7 +46,7 @@ class BookDetailMonitor(WarmMonitor):
         detail_info.update(extra_info)
         detail_info['added_at'] = datetime.datetime.now()
         detail_info['finished_status'] = 1
-        mongo['book_detail'].update_one(
+        self.mongodb['book_detail'].update_one(
             {'_id': '%s_%s' % (detail_info['source'], detail_info['book_id'])},
             {'$set': detail_info},
             upsert=True
@@ -63,11 +64,12 @@ class BookDetailMonitor(WarmMonitor):
 
 
 class BookChapterMonitor(WarmMonitor):
-    def __init__(self, queue, scheduler=None, *args, **kwargs):
+    def __init__(self, queue, scheduler=None, mongodb=None, *args, **kwargs):
         log_name = self.__class__.__module__ + '.' + self.__class__.__name__
         kwargs.pop('log_name', None)
         kwargs['log_name'] = log_name
         super(BookChapterMonitor, self).__init__(queue, scheduler, *args, **kwargs)
+        self.mongodb = mongodb
 
     def one_step(self, data):
         html = data['html']
@@ -84,7 +86,7 @@ class BookChapterMonitor(WarmMonitor):
             chapter['book_id'] = extra_info['book_id']
             chapter['added_at'] = datetime.datetime.now()
             chapter['finished_status'] = 0
-            result = mongo['book_chapter'].update_one(
+            result = self.mongodb['book_chapter'].update_one(
                 {'_id': '%s_%s_%s' % (chapter['source'], chapter['book_id'], chapter['chapter_ordinal'])},
                 {'$setOnInsert': chapter},
                 upsert=True
@@ -108,11 +110,12 @@ class BookChapterMonitor(WarmMonitor):
 
 
 class BookContentMonitor(WarmMonitor):
-    def __init__(self, queue, scheduler=None, *args, **kwargs):
+    def __init__(self, queue, scheduler=None, mongodb=None, *args, **kwargs):
         log_name = self.__class__.__module__ + '.' + self.__class__.__name__
         kwargs.pop('log_name', None)
         kwargs['log_name'] = log_name
         super(BookContentMonitor, self).__init__(queue, scheduler, *args, **kwargs)
+        self.mongodb = mongodb
 
     def one_step(self, data):
         html = data['html']
@@ -129,7 +132,7 @@ class BookContentMonitor(WarmMonitor):
             '%s.txt' % extra_info['chapter_ordinal'],
             content
         )
-        mongo['book_chapter'].update_one(
+        self.mongodb['book_chapter'].update_one(
             {'_id': '%s_%s_%s' % (extra_info['source'], extra_info['book_id'], extra_info['chapter_ordinal'])},
             {'$set': {'finished_status': 1}},
             upsert=True

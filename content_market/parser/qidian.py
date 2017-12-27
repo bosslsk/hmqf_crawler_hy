@@ -37,7 +37,7 @@ class Qidian(BaseParser):
         item['url'] = url
         word_count = sel.xpath('//div[@class="book-information cf"]/div[@class="book-info "]/p[3]/em[1]/text()')[0]
         site = sel.xpath('//div[@class="book-information cf"]/div[@class="book-info "]/p[3]/cite[1]/text()')[0]
-        item['word_count'] = self.transform_word_count(word_count, site)
+        item['word_count'] = int(self.transform_word_count(word_count, site))
         item['author'] = sel.xpath('//div[@class="book-information cf"]/div[2]/h1/span/a/text()')[0]
         item['category'] = sel.xpath('//div[@class="book-information cf"]/div[2]/p[1]/a[1]/text()')[0]
         item['sub_category'] = sel.xpath('//div[@class="book-information cf"]/div[2]/p[1]/a[2]/text()')[0]
@@ -89,35 +89,3 @@ class Qidian(BaseParser):
         item['status'] = element.xpath('./div[2]/p[1]/span/text()')[0]
         item['introduction'] = self.cleaner.fit_transform(element.xpath('./div[2]/p[2]/text()')[0])
         return item
-
-
-if __name__ == '__main__':
-    import sys
-    import json
-
-    import requests
-
-    reload(sys)
-    sys.setdefaultencoding('utf8')
-
-    # url = 'https://www.qidian.com/all?orderId=3&page=1&style=1&pageSize=20&siteid=1&pubflag=0&hiddenField=0'
-    url = 'https://book.qidian.com/info/1010696129'
-    content = requests.get(url).content
-    qidian = Qidian()
-    # for book_info in qidian.parse_source_list(content, url):
-    #     print book_info
-    info = qidian.parse_detail(content, url)
-    with open('/Users/heyao/hmqf_crawler_hy/tests/parser/data/qidian_book_detail.json', 'w') as f:
-        json.dump(dict(info), f, ensure_ascii=False)
-    # for key in info:
-    #     print key, info[key]
-    # chapters = qidian.parse_chapter_list(content, url)
-    # for chapter in chapters:
-    #     content = requests.get(chapter['url']).content
-    #     with open('/Users/heyao/hmqf_crawler_hy/tests/parser/data/qidian_chapter_page.html', 'w') as f:
-    #         f.write(content)
-    #     content = qidian.parse_content(content)
-    #     with open('/Users/heyao/hmqf_crawler_hy/tests/parser/data/qidian_chapter_content.html', 'w') as f:
-    #         f.write(content)
-    #     break
-    #     print '-' * 50
