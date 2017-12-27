@@ -42,11 +42,12 @@ def add_url(url, force_update):
         schedule = scheduler.schedul(request_data)
     return support, schedule
 
+
 if __name__ == '__main__':
     urls = [
         {
             'url': 'https://book.qidian.com/info/1009704712',
-            'force_update': 1
+            'force_update': 0
         },
         {
             'url': 'https://book.qidian.com/info/1007090207',
@@ -54,7 +55,11 @@ if __name__ == '__main__':
         },
         {
             'url': 'http://www.hhh.com/info/1234567',
-            'force_update': 1
+            'force_update': 0
+        },
+        {
+            'url': 'http://www.shangshu.cc/99/99290/',
+            'force_update': 0
         }
     ]
     for url_info in urls:
