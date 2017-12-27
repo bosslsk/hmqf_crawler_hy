@@ -22,6 +22,16 @@ class BaseParser(object):
         filename = settings.get("LOG_FILENAME", None)
         return cls(log_level, format_str, filename)
 
+    @staticmethod
+    def transform_word_count(word_count, site):
+        if u'千' in site:
+            return float(word_count) * 1000
+        if u'万' in site:
+            return float(word_count) * 10000
+        if u'亿' in site:
+            return float(word_count) * 100000000
+        return float(word_count)
+
     def parse_source_list(self, content, url):
         raise NotImplementedError()
 
