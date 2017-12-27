@@ -9,5 +9,5 @@ import os
 
 from content_market.settings import config
 
-config_name = os.environ.get("CRAWLER_CONFIG_NAME", 'default')
+config_name = os.environ.get("TOOLS_CONFIG_NAME", 'default')
 config = config[config_name]
