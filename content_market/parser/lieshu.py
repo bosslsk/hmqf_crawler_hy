@@ -19,13 +19,3 @@ class Lieshu(Shangshu):
 
     def __init__(self, log_name=None, log_level="INFO", format_str=None, filename=None):
         super(Lieshu, self).__init__(log_name, log_level, format_str, filename)
-
-
-if __name__ == '__main__':
-    import requests
-
-    url = 'http://www.lieshu.cc/2/2732/'
-    content = requests.get(url).content.decode('gbk')
-    parse = Lieshu()
-    info = parse.parse_detail(content, url)
-    print info
