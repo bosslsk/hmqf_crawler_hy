@@ -35,7 +35,7 @@ class Biquge(BaseParser):
         item['introduction'] = self.cleaner.fit_transform('\n'.join(sel.xpath('//div[@id="intro"]/p/text()')))
         return item
 
-    def  parse_chapter_list(self, content, url):
+    def parse_chapter_list(self, content, url):
         try:
             sel = etree.HTML(content)
         except ValueError:
@@ -59,13 +59,3 @@ class Biquge(BaseParser):
     def parse_content(self, content, url=None):
         sel = etree.HTML(content)
         return self.cleaner.fit_transform('\n'.join(sel.xpath('//div[@id="content"]/text()')))
-
-
-if __name__ == '__main__':
-    import requests
-
-    url = 'http://www.biquge5200.com/84_84875/'
-    content = requests.get(url).content.decode('gbk')
-    parse = Biquge()
-    info = parse.parse_detail(content, url)
-    print info
