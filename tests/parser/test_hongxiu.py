@@ -45,6 +45,6 @@ class TestHongxiu(object):
             content = f.read().decode('utf-8')
         with open('parser/data/hongxiu/book_detail.json', 'r') as f:
             book_detail = json.load(f)
-        url = 'https://www.hongxiu.com/book/9386712803971103'
+        url = 'https://www.hongxiu.com/book/6972481904230701'
         info = self.hongxiu.parse_detail(content, url)
         assert_dict_equal(book_detail, dict(info))

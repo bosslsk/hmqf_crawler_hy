@@ -30,10 +30,7 @@ class Hongxiu(BaseParser):
         item['author'] = sel.xpath('//div[@class="book-info"]/h1/a/text()')[0][:-2]
         item['category'] = sel.xpath('//div[@class="crumbs-nav center1020"]/span/a/text()')[1]
         item['sub_category'] = sel.xpath('//div[@class="crumbs-nav center1020"]/span/a/text()')[2]
-        if len(sel.xpath('//span[@class="tag"]/i/text()')) == 6:
-            item['status'] = sel.xpath('//span[@class="tag"]/i/text()')[1]
-        else:
-            item['status'] = sel.xpath('//span[@class="tag"]/i/text()')[0]
+        item['status'] = sel.xpath('//span[@class="tag"]/i[@class="blue"]/text()')[0]
         word_count = sel.xpath('//p[@class="total"]/span/text()')[0]
         site = sel.xpath('//p[@class="total"]/em/text()')[0]
         item['word_count'] = int(self.transform_word_count(word_count, site))
@@ -67,13 +64,3 @@ class Hongxiu(BaseParser):
     def parse_content(self, content, url=None):
         sel = etree.HTML(content)
         return self.cleaner.fit_transform('\n'.join(sel.xpath('//div[@class="read-content j_readContent"]/p/text()')))
-
-
-if __name__ == '__main__':
-    url = 'https://www.hongxiu.com/book/5153415903093801'
-    import requests
-
-    content = requests.get(url).content.decode('utf-8')
-    parse = Hongxiu()
-    info = parse.parse_detail(content, url)
-    print info
