@@ -4,7 +4,8 @@ create on 2017-12-14 上午9:46
 
 author @heyao
 """
-
+from content_market.checker.url_parser.biquge import parse_biquge
+from content_market.checker.url_parser.lieshu import parse_lieshu
 from content_market.exceptions import HostNotSupportException
 from content_market.checker.key_inject import inject
 from content_market.checker.query import query_config
@@ -12,17 +13,28 @@ from content_market.checker.url_parser.utils import parse_url
 from content_market.checker.url_parser.qidian import parse_qidian
 from content_market.checker.url_parser.jjwx import parse_jjwx
 from content_market.checker.url_parser.shangshu import parse_shangshu
+from content_market.checker.url_parser.xxsy import parse_xxsy
+from content_market.checker.url_parser.hongxiu import parse_hongxiu
+
 
 parse_dict = {
     'www.jjwxc.net': parse_jjwx,
     'book.qidian.com': parse_qidian,
-    'www.shangshu.cc': parse_shangshu
+    'www.shangshu.cc': parse_shangshu,
+    'www.xxsy.net': parse_xxsy,
+    'www.hongxiu.com': parse_hongxiu,
+    'www.biquge5200.com': parse_biquge,
+    'www.lieshu.cc': parse_lieshu
 }
 
 source_dict = {
     '.qidian.': 1,
     '.jjwxc.': 7,
-    '.shangshu.': 15
+    '.shangshu.': 15,
+    '.xxsy.': 6,
+    '.hongxiu.': 5,
+    '.biquge5200.': 16,
+    '.lieshu.': 17
 }
 
 

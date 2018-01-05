@@ -4,6 +4,9 @@
     @time: 2017/12/19 16:28
     @subject: 
 """
+import requests
+import urlparse
+from urlparse import urljoin
 
 import sys
 from urlparse import urljoin
@@ -34,9 +37,22 @@ class Shangshu(BaseParser):
         item['category'] = sel.xpath('//h2[@class="BookAuthor"]/text()')[1].strip().split(u'：')[-1]
         item['sub_category'] = ''
         item['word_count'] = 0
-        item['status'] = ''  # sel.xpath('//span[@id="adbanner_1"]/text()')[0][:3]
+        book_id = self.get_book_id(item['url'])
+        item['status'] = self.parse_status(book_id)
+        item['introduction'] = sel.xpath('//h3[@class="BookIntro"]/text()')[0].replace(' ', '').strip()[3:]
+        # item['status'] = sel.xpath('//span[@id="adbanner_1"]/text()')[0][:3]
         item['introduction'] = self.cleaner.fit_transform('\n'.join(sel.xpath('//h3[@class="BookIntro"]/text()')))
         return item
+
+    def get_book_id(self, url):
+        url_path = urlparse.urlparse(url).path
+        book_id = url_path.split('/')[2]
+        return book_id
+
+    def parse_status(self, book_id):
+        response = requests.get('http://www.shangshu.cc/modules/article/articleinfo.php?id={}'.format(book_id))
+        status = response.content.decode('gbk').split('"')[1][:3]
+        return status
 
     def parse_source_list(self, content, url):
         pass

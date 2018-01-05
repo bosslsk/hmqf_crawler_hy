@@ -19,15 +19,6 @@ class TestShangshu(object):
     def tear_down(self):
         pass
 
-    # def test_source_list(self):
-    #     with open('parser/data/shangshu/source_list.html', 'r') as f:
-    #         content = f.read().decode('utf-8')
-    #     with open('parser/data/shangshu/source_list.json', 'r') as f:
-    #         result = json.load(f)
-    #     url = 'http://www.shangshu.cc'
-    #     source_list = self.shangshu.parse_source_list(content, url)
-    #     assert_list_equal(list(source_list), result)
-
     def test_chapter_list(self):
         with open('parser/data/shangshu/book_detail.html', 'r') as f:
             content = f.read().decode('utf-8')
@@ -39,9 +30,9 @@ class TestShangshu(object):
         assert_list_equal(list(chapters), real_chapters)
 
     def test_chapter_content(self):
-        with open('parser/data/shangshu/chapter_page.html', 'r') as f:
-            content_page = f.read().decode('utf-8')
         with open('parser/data/shangshu/chapter_content.html', 'r') as f:
+            content_page = f.read().decode('utf-8')
+        with open('parser/data/shangshu/chapter_content.txt', 'r') as f:
             content = f.read().decode('utf-8')
         assert_equal(content, self.shangshu.parse_content(content_page))
 

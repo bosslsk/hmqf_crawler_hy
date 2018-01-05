@@ -42,6 +42,7 @@ def add_url(url, force_update):
         schedule = scheduler.schedul(request_data)
     return support, schedule
 
+
 if __name__ == '__main__':
     urls = [
         {
@@ -54,7 +55,23 @@ if __name__ == '__main__':
         },
         {
             'url': 'http://www.hhh.com/info/1234567',
-            'force_update': 1
+            'force_update': 0
+        },
+        {
+            'url': 'http://www.shangshu.cc/91/91584/',
+            'force_update': 0
+        },
+        {
+            'url': 'http://www.xxsy.net/info/879675.html',
+            'force_update': 0
+        },
+        {
+            'url': 'https://www.hongxiu.com/book/5328020304573901',
+            'force_update': 0
+        },
+        {
+            'url': 'http://www.biquge5200.com/86_86306/',
+            'force_update': 0
         }
     ]
     for url_info in urls:
