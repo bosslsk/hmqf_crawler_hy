@@ -4,6 +4,7 @@ create on 2017-12-13 上午9:57
 
 author @heyao
 """
+
 hosts_config = [
     {
         'name': 'QIDIAN_DETAIL_HTML',
@@ -32,7 +33,7 @@ hosts_config = [
     {
         'name': 'JJWX_DETAIL_JSON',
         'host': 'www.jjwxc.net',
-        'path': '/onebook.php',
+        'path': r'/onebook.php',
         'queries': None,
         'data_url': 'http://android.jjwxc.net/androidapi/novelbasicinfo?novelId={book_id}',
         'formdata': None,
